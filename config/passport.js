@@ -1,4 +1,5 @@
 const passport = require("passport");
+const pool = require("../db/pool");
 const LocalStrategy = require("passport-local").Strategy;
 
 passport.use(
