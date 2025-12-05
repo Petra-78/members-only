@@ -34,4 +34,14 @@ async function signUp(req, res, next) {
   }
 }
 
-module.exports = { signUp, postLogin };
+async function renderMembership(req, res, next) {
+  console.log("MEMBERSHIP ROUTE HIT");
+  res.render("membership-form");
+}
+
+async function postMembership(req, res, next) {
+  const { code } = req.body;
+  console.log(code);
+}
+
+module.exports = { signUp, renderMembership, postMembership };
