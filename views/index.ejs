@@ -20,11 +20,16 @@
                 <% } else { %>
                 <div>***** *****</div>
                 <div class="date">**** ** **</div>
-                <% }  %>
+                <% } %>
               </li>
               <li class="title"><%= users[i].title %></li>
               <li class="message"><%= users[i].message %></li>
             </div>
+            <% if(locals.user.admin) { %>
+              <form action="/delete/<%= users[i].message_id %>" method="POST">
+                <button type="submit">Delete</button>
+              </form>
+            <% }  %>
           <% } %>
         </ul>
       <% }%>
@@ -33,6 +38,9 @@
       </a>
       <% if (!user.membership_status) {%>
       <p>Not a member yet? <a href="/membership">Become one!</a></p>
+      <% } %>
+      <% if (!user.admin) {%>
+      <p>Are you  an admin? <a href="/admin">Authenticate.</a></p>
       <% } %>
     <a href="/log-out">Log out</a>
      </div>
