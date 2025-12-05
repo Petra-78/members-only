@@ -8,7 +8,6 @@
     <title>Add message</title>
   </head>
   <body>
-    <% if(locals.user) { %>
     <form method="POST" action="/new">
       <label for="user">Title *</label>
       <input type="text" name="title" id="title" maxlength="100" required />
@@ -25,9 +24,5 @@
 
       <button type="submit">Submit</button>
     </form>
-    <% } else {%>
-    <h2>You are not authorized to view this content.</h2>
-    <p>Please <a href="/">Login</a></p>
-    <% }%>
   </body>
 </html>
