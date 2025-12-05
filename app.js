@@ -4,6 +4,7 @@ const session = require("express-session");
 const passport = require("passport");
 require("dotenv").config();
 require("./config/passport");
+const flash = require("connect-flash");
 
 const signupRouter = require("./routes/signupRouter");
 const loginRouter = require("./routes/loginRouter");
@@ -19,21 +20,33 @@ app.use(
     saveUninitialized: false,
   })
 );
+
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
+app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.user = req.user;
+  res.locals.error = req.flash("error");
   next();
 });
 
 app.get("/", (req, res) => {
-  console.log(req.body, req.locals);
+  console.log("req.user:", req.user);
+  console.log("res.locals.user:", res.locals.user);
   res.render("index");
 });
 
 app.use("/log-in", loginRouter);
 app.use("/sign-up", signupRouter);
+app.get("/log-out", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
 
 app.listen(process.env.PORT, (error) => {
   if (error) {
