@@ -9,6 +9,11 @@ function isAuthenticated(req, res, next) {
   res.redirect("/");
 }
 
+function isAdmin(req, res, next) {
+  if (req.user && req.user.admin) return next();
+  res.redirect("/");
+}
+
 async function signUp(req, res, next) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -40,7 +45,6 @@ async function signUp(req, res, next) {
 }
 
 async function renderMembership(req, res, next) {
-  console.log("MEMBERSHIP ROUTE HIT");
   res.render("membership-form");
 }
 
@@ -53,7 +57,51 @@ async function postMembership(req, res, next) {
       req.user.id,
     ]);
     res.redirect("/");
+  } else {
+    const errors = ["Wrong secret code"];
+    res.render("membership-form", { errors });
   }
 }
 
-module.exports = { isAuthenticated, signUp, renderMembership, postMembership };
+async function renderAdmin(req, res, next) {
+  console.log("ADMIN ROUTE HIT");
+  res.render("admin-form");
+}
+
+async function postAdmin(req, res, next) {
+  const { code } = req.body;
+  console.log(code);
+
+  if (code === process.env.ADMIN_SECRET) {
+    await pool.query("UPDATE users SET admin = true WHERE id=$1", [
+      req.user.id,
+    ]);
+    res.redirect("/");
+  } else {
+    const errors = ["Wrong secret code"];
+    res.render("admin-form", { errors });
+  }
+}
+
+async function deleteMessage(req, res, next) {
+  try {
+    const id = req.params.id;
+
+    await pool.query("DELETE FROM messages WHERE id = $1", [id]);
+
+    return res.redirect("/");
+  } catch (err) {
+    return next(err);
+  }
+}
+
+module.exports = {
+  isAuthenticated,
+  signUp,
+  renderMembership,
+  postMembership,
+  renderAdmin,
+  postAdmin,
+  deleteMessage,
+  isAdmin,
+};
