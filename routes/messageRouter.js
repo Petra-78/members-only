@@ -2,8 +2,14 @@ const { Router } = require("express");
 const router = Router();
 const messagesController = require("../controllers/messagesController");
 const { newMessageValidator } = require("../validators/messageValidator");
+const { isAuthenticated } = require("../controllers/authController");
 
-router.get("/", messagesController.renderMessageForm);
-router.post("/", newMessageValidator, messagesController.postMessage);
+router.get("/", isAuthenticated, messagesController.renderMessageForm);
+router.post(
+  "/",
+  isAuthenticated,
+  newMessageValidator,
+  messagesController.postMessage
+);
 
 module.exports = router;
