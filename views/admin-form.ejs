@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <h1>Admin</h1>
+    <form action="/admin" method="POST">
+      <label for="firstName">What is the secret code? *</label>
+      <input id="code" name="code" placeholder="****" type="text" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <% if (errors) {%> <% errors.forEach((err)=>{ %>
+    <p><%= err%></p>
+    <% }) } %>
+  </body>
+</html>
