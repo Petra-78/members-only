@@ -11,9 +11,16 @@ INSERT INTO users (
 `;
 
 const JOIN_TABLES = `
-SELECT users.first_name, users.last_name, messages.title, messages.message, messages.date
+SELECT 
+  users.first_name, 
+  users.last_name, 
+  messages.id AS message_id,
+  messages.title, 
+  messages.message, 
+  messages.date
 FROM users
 JOIN messages ON users.id = messages.user_id;
+
 `;
 
 const ADD_MESSAGE = `
