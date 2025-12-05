@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="/assets/logo.png" />
+    <title>Add message</title>
+  </head>
+  <body>
+    <% if(locals.user) { %>
+    <form method="POST" action="/new">
+      <label for="user">Title *</label>
+      <input type="text" name="title" id="title" maxlength="100" required />
+
+      <label for="message">Message *</label>
+      <input type="text" name="message" id="message" maxlength="400" required />
+      <% if (errors) { %>
+      <ul>
+        <% errors.forEach(err => { %>
+        <li style="color: red"><%= err.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <button type="submit">Submit</button>
+    </form>
+    <% } else {%>
+    <h2>You are not authorized to view this content.</h2>
+    <p>Please <a href="/">Login</a></p>
+    <% }%>
+  </body>
+</html>
