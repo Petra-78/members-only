@@ -6,9 +6,34 @@
     <title>Document</title>
   </head>
   <body>
+    <div class="main"></div>
     <% if(locals.user) { %>
     <h1>Hello <%= locals.user.first_name%>!</h1>
+      <% if (users.length > 0) {%>
+        <ul id="messages">
+          <% for (let i=0; i < users.length; i++) { %>
+            <div>
+              <li class="user-info">
+                 <% if(locals.user.membership_status) { %>
+                <div><%= users[i].first_name %> <%= users[i].last_name %></div>
+                <div class="date"><%= users[i].date %></div>
+                <% } else { %>
+                <div>***** *****</div>
+                <div class="date">**** ** **</div>
+                <% }  %>
+              </li>
+              <li class="title"><%= users[i].title %></li>
+              <li class="message"><%= users[i].message %></li>
+            </div>
+          <% } %>
+        </ul>
+      <% }%>
+      <a href="/new">
+        <button>+ New message</button>
+      </a>
+      <p>Not a member yet? <a href="/membership">Become one!</a></p>
     <a href="/log-out">Log out</a>
+     </div>
     <% } else {%>
 
     <h1>please log in</h1>
