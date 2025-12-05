@@ -1,3 +1,5 @@
+const pool = require("./pool");
+
 const SQL = [
   `
 CREATE TABLE IF NOT EXISTS users (
@@ -18,5 +20,18 @@ CREATE TABLE IF NOT EXISTS users (
   user_id INT NOT NULL REFERENCES users(id)
 );`,
 ];
+
+(async () => {
+  try {
+    for (const tables of SQL) {
+      await pool.query(tables);
+    }
+    console.log("Tables created successfully.");
+  } catch (err) {
+    console.error("Error running seed script:", err);
+  } finally {
+    await pool.end();
+  }
+})();
 
 module.exports = SQL;
