@@ -8,6 +8,8 @@ const flash = require("connect-flash");
 
 const signupRouter = require("./routes/signupRouter");
 const loginRouter = require("./routes/loginRouter");
+const indexRouter = require("./routes/indexRouter");
+const messageRouter = require("./routes/messageRouter");
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
@@ -28,14 +30,11 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.error = req.flash("error");
+  res.locals.errors = [];
   next();
 });
 
-app.get("/", (req, res) => {
-  console.log("req.user:", req.user);
-  console.log("res.locals.user:", res.locals.user);
-  res.render("index");
-});
+app.use("/", indexRouter);
 
 app.use("/log-in", loginRouter);
 app.use("/sign-up", signupRouter);
@@ -47,6 +46,8 @@ app.get("/log-out", (req, res, next) => {
     res.redirect("/");
   });
 });
+
+app.use("/new", messageRouter);
 
 app.listen(process.env.PORT, (error) => {
   if (error) {
