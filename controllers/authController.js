@@ -34,11 +34,4 @@ async function signUp(req, res, next) {
   }
 }
 
-async function postLogin(req, res, next) {
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  });
-}
-
 module.exports = { signUp, postLogin };
