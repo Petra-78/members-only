@@ -31,7 +31,9 @@
       <a href="/new">
         <button>+ New message</button>
       </a>
+      <% if (!user.membership_status) {%>
       <p>Not a member yet? <a href="/membership">Become one!</a></p>
+      <% } %>
     <a href="/log-out">Log out</a>
      </div>
     <% } else {%>
